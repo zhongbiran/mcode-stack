@@ -27,7 +27,9 @@
 //        MINIMAX_CODE_DIR=../minimax-code node scripts/check.mjs
 
 import { existsSync, readdirSync, readFileSync, statSync } from "node:fs";
-import { join, relative } from "node:path";
+import { basename, join, relative } from "node:path";
+
+// Windows 上 path.join 产生反斜杠，relative() 也是；下面所有路径比较统一成正斜杠再比。
 import { spawnSync } from "node:child_process";
 import { fileURLToPath } from "node:url";
 
@@ -114,7 +116,7 @@ function checkCompanionManifest(root, manifest, relPath) {
 }
 
 function checkStack(root) {
-  const name = root.split("/").pop();
+  const name = basename(root);
   const where = relative(ROOT, root);
   const manifestPath = join(root, ".minimax-plugin", "plugin.json");
   if (!existsSync(manifestPath)) return err(where, "missing .minimax-plugin/plugin.json");
@@ -163,7 +165,7 @@ function checkMarketplace() {
   if (!Array.isArray(catalog.plugins)) return err(MARKETPLACE, '"plugins" must be a list');
   const published = new Map(
     stacks
-      .map((root) => [relative(ROOT, root), root])
+      .map((root) => [relative(ROOT, root).replace(/\\/gu, "/"), root])
       .filter(([rel]) => PUBLISHED_PARENTS.includes(rel.split("/")[0])),
   );
   const listed = new Set();
@@ -207,7 +209,7 @@ function checkVersionBumps() {
   const mergeBase = git(["merge-base", base, "HEAD"]);
   if (!mergeBase) return err("CHECK_BASE", `no merge base between ${base} and HEAD (fetch full history)`);
   for (const root of stacks) {
-    const rel = relative(ROOT, root);
+    const rel = relative(ROOT, root).replace(/\\/gu, "/");
     if (!PUBLISHED_PARENTS.includes(rel.split("/")[0])) continue;
     if (!git(["diff", "--name-only", mergeBase, "--", rel])) continue;
     const before = git(["show", `${mergeBase}:${rel}/.minimax-plugin/plugin.json`]);

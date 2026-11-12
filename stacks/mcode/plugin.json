@@ -1,0 +1,11 @@
+{
+  "$schema": "https://agent-plugins.org/schemas/1.0.0/plugin.schema.json",
+  "name": "mcode",
+  "version": "0.1.0",
+  "description": "按会话生命周期组织的 MCode 工作台：一个入口 skill 走完开工、推进、验收、收尾四个阶段，每个阶段指派对应 agent 与模型，把新项目配置（AGENTS.md、唯一验收入口、需求文档骨架、拆活方案）一次生成，并按难度把执行分给高难度与低成本两个执行者。触发词：mcode、开工、启动项目、验收、收尾、复盘。",
+  "author": {
+    "name": "MiniMax Code team"
+  },
+  "homepage": "https://github.com/MiniMax-AI/mcode-stack/tree/main/stacks/mcode",
+  "repository": "https://github.com/MiniMax-AI/mcode-stack"
+}

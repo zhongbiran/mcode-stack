@@ -1,35 +1,18 @@
-# Team stacks
+# Stacks
 
-Each directory here is one MiniMax Code team member's stack: the workflows
-and skills they actually use to build MiniMax Code. Each stack is also a
-MiniMax Code plugin package.
+每个目录是一个插件包。装上之后，里面每个 skill 都能单独调。
 
-| Stack | Owner | What it has |
-| --- | --- | --- |
-| [`ronny`](ronny/) | Ronny, R&D lead | Skills and plain-text checklists |
-| [`jiachen`](jiachen/) | Jiachen, engineer | Skills and a `WORKFLOW.md` |
-| [`req-tpm`](req-tpm/) | MiniMax Code team | Optional, v0: the requester and their agent act as a requirement's TPM (Feishu doc body, Meegle status). Skills, templates and a `WORKFLOW.md` |
+| Stack | 用途 | 入口 |
+|---|---|---|
+| [`mcode`](mcode/) | 生命周期工作台：开工、推进、验收、收尾四个阶段，一个入口走完 | `mcode` |
+| [`mcode-content`](mcode-content/) | 内容生产：去 AI 味、小红书图文、竖版短视频 | `making-content` |
 
-Teammates are welcome to add their own; see below.
+## 新增一个 stack
 
-## Adding a team stack
-
-1. Pick an id: lowercase letters, digits and hyphens. It becomes both the
-   directory name and the plugin `name`.
-2. Copy the template: `cp -R templates/stack-template stacks/<id>`.
-3. Edit `.minimax-plugin/plugin.json`, write your skills and `WORKFLOW.md`.
-4. Add a row to the table above, and an entry to
-   [`.claude-plugin/marketplace.json`](../.claude-plugin/marketplace.json)
-   (`"source": "./stacks/<id>"`, the same `description` as `plugin.json`).
-5. Run `node scripts/check.mjs` and open a PR.
-
-When you change a stack later, raise its `version` in the same PR; see
-[CONTRIBUTING.md](../CONTRIBUTING.md#changing-a-stack).
-
-Keep it public-safe: no internal hostnames, links, project codenames,
-internal metrics, credentials or customer data. Skills must work for someone
-outside the team.
-
-Stacks from outside the team go in [`community/`](../community/). Pull
-requests are accepted only from repository collaborators. If you are not a
-collaborator, open an issue first. See [CONTRIBUTING.md](../CONTRIBUTING.md).
+1. 取 id：小写字母 + 数字 + 连字符，**同时是目录名和 plugin name**
+2. `cp -R templates/stack-template stacks/<id>`
+3. 改 `.minimax-plugin/plugin.json`：`name` 填 `<id>`；**description 第一句写「什么时刻调」**
+4. 改 `WORKFLOW.md`：第一节固定是「此刻该调哪个 skill」表
+5. 每个 skill 目录一个 `SKILL.md`，目录名 = frontmatter `name`
+6. 在 `../.claude-plugin/marketplace.json` 与 `../.agents/plugins/marketplace.json` 各加一条
+7. 跑 `node ../scripts/check.mjs`

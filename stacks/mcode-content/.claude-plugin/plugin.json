@@ -1,0 +1,11 @@
+{
+  "name": "mcode-content",
+  "displayName": "MCode 内容生产",
+  "version": "0.1.0",
+  "description": "内容生产栈：把中文草稿改成本人风格（去 AI 味），或做成小红书图文与竖版短视频。与工程生命周期无关，可单独安装。",
+  "author": {
+    "name": "Jiachen (MiniMax Code team)"
+  },
+  "homepage": "https://github.com/MiniMax-AI/mcode-stack/tree/main/stacks/mcode-content",
+  "repository": "https://github.com/MiniMax-AI/mcode-stack"
+}

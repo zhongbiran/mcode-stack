@@ -2,7 +2,7 @@
 # Install one stack into Claude Code, Codex, or ~/.agents/skills/.
 #
 # Usage: scripts/install.sh [stack]
-#   stack defaults to ronny. Example: scripts/install.sh jiachen
+#   stack defaults to mcode. Example: scripts/install.sh jiachen
 #
 # When claude or codex is on PATH, this runs that product's marketplace
 # install. When neither is, it copies every skill directory under the stack
@@ -10,13 +10,13 @@
 
 set -euo pipefail
 
-STACK="${1:-ronny}"
+STACK="${1:-mcode}"
 MARKETPLACE="MiniMax-AI/mcode-stack"
 MARKETPLACE_NAME="mcode-stack"
 
 if [[ "${STACK}" == "-h" || "${STACK}" == "--help" ]]; then
   echo "Usage: scripts/install.sh [stack]"
-  echo "  stack defaults to ronny. Example: scripts/install.sh jiachen"
+  echo "  stack defaults to mcode. Example: scripts/install.sh jiachen"
   exit 0
 fi
 

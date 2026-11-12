@@ -1,0 +1,37 @@
+#!/usr/bin/env bash
+# {{PROJECT_NAME}} 唯一验收入口
+#
+# 用法：bash verify.sh
+set -euo pipefail
+ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+cd "$ROOT"
+
+fail=0
+
+# 1) 静态规则 —— 按本项目补
+echo "== 1/4 静态规则 =="
+echo "  （还没配置规则）"
+
+# 2) 构建 / 类型检查（由脚手架按技术栈填好，按需改）
+build='{{BUILD_LINE}}'
+
+# 3) 自检脚本（可选）
+selfcheck='scripts/selfcheck.mjs'
+
+if [ -n "$build" ]; then
+  echo "== 2/4 构建 =="
+  eval "$build" || { echo "构建失败" >&2; exit 1; }
+else
+  echo "== 2/4 构建 == （未配置构建命令，跳过）"
+fi
+
+echo "== 3/4 自检 =="
+if [ -f "$selfcheck" ]; then
+  node "$selfcheck" || { echo "自检失败" >&2; exit 1; }
+else
+  echo "  （没有 $selfcheck，跳过）"
+fi
+
+echo "== 4/4 验收 =="
+echo "全部通过"
+exit $fail

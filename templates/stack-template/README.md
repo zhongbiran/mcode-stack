@@ -1,22 +1,24 @@
-# Stack template
+# <栈名>
 
-Copy this directory to start a stack. Pull requests that add one are accepted
-only from repository collaborators. If you are not a collaborator, open an
-issue first ([CONTRIBUTING.md](../../CONTRIBUTING.md)).
+<一句话：这个 stack 解决什么问题，什么时候用。>
+
+## 包含什么
+
+- 入口 skill：`/<name>` —— 判定阶段 + 编排 + 派 agent 表
+- `scripts/` —— 确定性部分（秒级、零 token）
+- `templates/` —— 骨架模板
+- 其余 skill：具体手法，按阶段归位
+
+## 安装
 
 ```bash
-cp -R templates/stack-template community/<your-id>
+cp -R stacks/<name> ~/.minimax/plugins/
+# 然后在 MCode 的 /plugins 面板按 Ctrl+R 刷新
 ```
 
-Then:
+> 插件目录**不热加载**：复制后必须刷新或重开会话。
+> 更省事：把 `skills/*` 复制到 `~/.agents/skills/`，新会话立即可用。
 
-1. Rename the plugin: set `name` in `.minimax-plugin/plugin.json` to `<your-id>`.
-   It must equal the directory name (lowercase letters, digits and hyphens).
-2. Fill in `description`, `author` and, optionally, up to three `exampleQueries`.
-3. Replace `icon.png` with your own PNG, JPEG or WebP icon if you like.
-4. Rename `skills/example` and write your skills. List every skill in `skills`
-   in `plugin.json`.
-5. Write `WORKFLOW.md`.
-6. Add an entry for the stack to `.claude-plugin/marketplace.json` at the
-   repository root (see CONTRIBUTING.md).
-7. Run `node scripts/check.mjs` from the repository root.
+## 署名与许可
+
+<原作者与第三方素材的署名；改编自 Google Engineering Practices 的要指明 CC-BY 3.0>

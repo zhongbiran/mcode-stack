@@ -1,0 +1,61 @@
+param([switch]$ChecksOnly)
+# {{PROJECT_NAME}} 唯一验收入口
+#
+# 用法：pwsh -File verify.ps1 [-ChecksOnly]
+#   -ChecksOnly   只跑静态规则（秒级，改完立刻跑）
+#
+# 四个阶段：静态规则 -> 构建/类型检查 -> 自检 -> 验收。任何一步失败立即退出非零。
+$ErrorActionPreference = 'Stop'
+$root = Split-Path -Parent $MyInvocation.MyCommand.Path
+Set-Location $root
+
+$fail = [System.Collections.Generic.List[string]]::new()
+
+# 1) 静态规则 —— 按本项目补。每条：Name 规则名 / Path 扫描目录 / Include 文件名 / Pattern 禁止的模式 / Message 说明
+$rules = @(
+  # @{ Name = 'no-backdrop-filter'; Path = 'src'; Include = '*.tsx,*.css'; Pattern = 'backdrop-filter\s*:'; Message = '页面里禁用 backdrop-filter（叠 WebGL 画布会整页黑屏）' }
+)
+
+# 2) 构建 / 类型检查（由脚手架按技术栈填好，按需改）
+$build = '{{BUILD_LINE}}'
+
+# 3) 自检脚本（可选，没有就跳过）
+$selfcheck = 'scripts/selfcheck.mjs'
+
+Write-Host '== 1/4 静态规则 =='
+if ($rules.Count -eq 0) {
+  Write-Host '  （还没配置规则）'
+} else {
+  foreach ($r in $rules) {
+    $files = @(Get-ChildItem -Path (Join-Path $root $r.Path) -Recurse -Include $r.Include -File -ErrorAction SilentlyContinue)
+    $hit = @($files | Select-String -Pattern $r.Pattern -ErrorAction SilentlyContinue)
+    if ($hit.Count -gt 0) {
+      $fail.Add("$($r.Name)：$($r.Message) —— " + (($hit | Select-Object -First 3 | ForEach-Object { "$($_.Filename):$($_.LineNumber)" }) -join ', '))
+    } else {
+      Write-Host "  $($r.Name)  OK"
+    }
+  }
+}
+if ($fail.Count -gt 0) {
+  foreach ($f in $fail) { Write-Error $f }
+  exit 1
+}
+Write-Host '  静态规则通过'
+
+if ($ChecksOnly) { Write-Host '全部通过'; exit 0 }
+
+Write-Host '== 2/4 构建 =='
+if ($build) { Invoke-Expression $build } else { Write-Host '  （未配置构建命令，跳过）' }
+if ($LASTEXITCODE -ne 0) { Write-Error "构建失败 (exit $LASTEXITCODE)"; exit 1 }
+
+Write-Host '== 3/4 自检 =='
+if (Test-Path (Join-Path $root $selfcheck)) {
+  & node (Join-Path $root $selfcheck)
+  if ($LASTEXITCODE -ne 0) { Write-Error "自检失败 (exit $LASTEXITCODE)"; exit 1 }
+} else {
+  Write-Host "  （没有 $selfcheck，跳过）"
+}
+
+Write-Host '== 4/4 验收 =='
+Write-Host '全部通过'
+exit 0
