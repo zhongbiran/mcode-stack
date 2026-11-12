@@ -4,7 +4,7 @@
 
 <p align="center">
   <a href="LICENSE"><img alt="License: MIT" src="https://img.shields.io/badge/license-MIT-blue.svg"></a>
-  <a href="https://github.com/ZhongBiran/mcode-stack/actions/workflows/validate.yml"><img alt="validate" src="https://github.com/ZhongBiran/mcode-stack/actions/workflows/validate.yml/badge.svg"></a>
+  <a href="https://github.com/zhongbiran/mcode-stack/actions/workflows/validate.yml"><img alt="validate" src="https://github.com/zhongbiran/mcode-stack/actions/workflows/validate.yml/badge.svg"></a>
   <a href="stacks/"><img alt="skills: stacks/" src="https://img.shields.io/badge/skills-stacks%2F-ff7a59.svg"></a>
   <a href="https://github.com/MiniMax-AI/minimax-code"><img alt="for MiniMax Code" src="https://img.shields.io/badge/for-MiniMax%20Code-5b6cff.svg"></a>
 </p>
@@ -31,13 +31,13 @@
 **Claude Code，一条命令。** 这条命令会加上本仓库的插件市场，并装上一整份 stack。在 shell 里：
 
 ```bash
-claude plugin install mcode --marketplace ZhongBiran/mcode-stack
+claude plugin install mcode --marketplace zhongbiran/mcode-stack
 ```
 
 在 Claude Code 会话里：
 
 ```bash
-/plugin install mcode --marketplace ZhongBiran/mcode-stack
+/plugin install mcode --marketplace zhongbiran/mcode-stack
 ```
 
 `mcode` 是工程生命周期工作台，内容生产栈用 `mcode-content`，装法一样。克隆本仓库后可以跑 `scripts/install.sh`（默认 `mcode`，`scripts/install.sh mcode-content` 装另一个）：`PATH` 里有 `claude` 或 `codex` 时，它会执行同样的安装，否则把该 stack 的 Skill 复制到 `~/.agents/skills/`。
@@ -45,14 +45,14 @@ claude plugin install mcode --marketplace ZhongBiran/mcode-stack
 较旧的 Claude Code 可以先加市场，再安装：
 
 ```bash
-/plugin marketplace add ZhongBiran/mcode-stack
+/plugin marketplace add zhongbiran/mcode-stack
 /plugin install mcode@mcode-stack
 ```
 
 **Codex。** 先加上市场，再从 Plugins Directory 或 CLI 安装：
 
 ```bash
-codex plugin marketplace add ZhongBiran/mcode-stack
+codex plugin marketplace add zhongbiran/mcode-stack
 codex plugin add mcode@mcode-stack
 ```
 
@@ -61,7 +61,7 @@ codex plugin add mcode@mcode-stack
 **装一个 Skill，所有项目都能用：**
 
 ```bash
-git clone https://github.com/ZhongBiran/mcode-stack.git ~/mcode-stack
+git clone https://github.com/zhongbiran/mcode-stack.git ~/mcode-stack
 mkdir -p ~/.agents/skills
 cp -R ~/mcode-stack/stacks/mcode/skills/long-command-check ~/.agents/skills/
 ```
@@ -78,12 +78,12 @@ mcode plugin marketplace list    # 查看本地插件目录
 
 **从 MiniMax Code 插件市场安装：**
 
-这个仓库本身也是一个插件市场，不用复制文件就能装，之后有更新也能直接拿到。在 MiniMax Code 桌面端打开「插件」，点「添加市场」，填入 `ZhongBiran/mcode-stack`，每份 stack 都会显示成一个插件，可以安装、更新或卸载。添加市场的功能正在逐步开放，你的版本可能还没有。
+这个仓库本身也是一个插件市场，不用复制文件就能装，之后有更新也能直接拿到。在 MiniMax Code 桌面端打开「插件」，点「添加市场」，填入 `zhongbiran/mcode-stack`，每份 stack 都会显示成一个插件，可以安装、更新或卸载。添加市场的功能正在逐步开放，你的版本可能还没有。
 
 **换一台电脑，快速导入（MiniMax Code 桌面端）：**
 
 ```bash
-git clone https://github.com/ZhongBiran/mcode-stack.git
+git clone https://github.com/zhongbiran/mcode-stack.git
 ```
 
 把两个目录复制到插件目录（Windows：`%USERPROFILE%\.minimax\plugins\`，macOS：`~/.minimax/plugins/`）：
@@ -183,7 +183,7 @@ templates/stack-template/   新增 stack 用的模板
 
 ## 参与贡献
 
-欢迎开 issue 讨论。代码、文档和 stack 的 PR，目前只收仓库协作者的。还不是协作者的话，先[开一个 issue](https://github.com/ZhongBiran/mcode-stack/issues/new/choose) 把想法说清楚。
+欢迎开 issue 讨论。代码、文档和 stack 的 PR，目前只收仓库协作者的。还不是协作者的话，先[开一个 issue](https://github.com/zhongbiran/mcode-stack/issues/new/choose) 把想法说清楚。
 
 我们很想知道你用 MiniMax Code（或者别的 agent）每天到底怎么干活，写在 issue 里就行。协作者要把一份 stack 放进仓库，按这几步：
 

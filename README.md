@@ -4,7 +4,7 @@
 
 <p align="center">
   <a href="LICENSE"><img alt="License: MIT" src="https://img.shields.io/badge/license-MIT-blue.svg"></a>
-  <a href="https://github.com/ZhongBiran/mcode-stack/actions/workflows/validate.yml"><img alt="validate" src="https://github.com/ZhongBiran/mcode-stack/actions/workflows/validate.yml/badge.svg"></a>
+  <a href="https://github.com/zhongbiran/mcode-stack/actions/workflows/validate.yml"><img alt="validate" src="https://github.com/zhongbiran/mcode-stack/actions/workflows/validate.yml/badge.svg"></a>
   <a href="stacks/"><img alt="skills: stacks/" src="https://img.shields.io/badge/skills-stacks%2F-ff7a59.svg"></a>
   <a href="https://github.com/MiniMax-AI/minimax-code"><img alt="for MiniMax Code" src="https://img.shields.io/badge/for-MiniMax%20Code-5b6cff.svg"></a>
 </p>
@@ -41,13 +41,13 @@ The content stack `mcode-content` (display name **Mcode-Content-Check**) carries
 a whole stack. In a shell:
 
 ```bash
-claude plugin install mcode --marketplace ZhongBiran/mcode-stack
+claude plugin install mcode --marketplace zhongbiran/mcode-stack
 ```
 
 Inside a Claude Code session:
 
 ```bash
-/plugin install mcode --marketplace ZhongBiran/mcode-stack
+/plugin install mcode --marketplace zhongbiran/mcode-stack
 ```
 
 `mcode` is the engineering lifecycle workbench. Install `mcode-content` the same way
@@ -58,7 +58,7 @@ either is on `PATH`, and otherwise copies that stack's skills into `~/.agents/sk
 Older Claude Code can add the marketplace first, then install:
 
 ```bash
-/plugin marketplace add ZhongBiran/mcode-stack
+/plugin marketplace add zhongbiran/mcode-stack
 /plugin install mcode@mcode-stack
 ```
 
@@ -66,7 +66,7 @@ Older Claude Code can add the marketplace first, then install:
 CLI:
 
 ```bash
-codex plugin marketplace add ZhongBiran/mcode-stack
+codex plugin marketplace add zhongbiran/mcode-stack
 codex plugin add mcode@mcode-stack
 ```
 
@@ -77,7 +77,7 @@ Code both scan that directory; the copy steps are below.
 **One skill, for all your projects:**
 
 ```bash
-git clone https://github.com/ZhongBiran/mcode-stack.git ~/mcode-stack
+git clone https://github.com/zhongbiran/mcode-stack.git ~/mcode-stack
 mkdir -p ~/.agents/skills
 cp -R ~/mcode-stack/stacks/mcode/skills/long-command-check ~/.agents/skills/
 ```
@@ -100,14 +100,14 @@ enable or disable it.
 
 This repository is also a plugin marketplace, so you can install a stack
 without copying files and pick up updates later. In MiniMax Code desktop, open
-**Plugins**, choose **Add marketplace** and enter `ZhongBiran/mcode-stack`; each
+**Plugins**, choose **Add marketplace** and enter `zhongbiran/mcode-stack`; each
 stack then shows up as one plugin you can install, update or uninstall. Adding
 marketplaces is rolling out gradually, so your version may not have it yet.
 
 **Moving to another computer (MiniMax Code desktop):**
 
 ```bash
-git clone https://github.com/ZhongBiran/mcode-stack.git
+git clone https://github.com/zhongbiran/mcode-stack.git
 ```
 
 Copy the two directories into the plugin directory (Windows:
@@ -243,7 +243,7 @@ for what each one contains.
 
 Issues and discussion are welcome. For now, pull requests for code,
 documentation, and stacks are accepted only from repository collaborators.
-If you are not a collaborator, [open an issue](https://github.com/ZhongBiran/mcode-stack/issues/new/choose)
+If you are not a collaborator, [open an issue](https://github.com/zhongbiran/mcode-stack/issues/new/choose)
 to discuss first.
 
 We still want to hear how you work with MiniMax Code, or any other agent,

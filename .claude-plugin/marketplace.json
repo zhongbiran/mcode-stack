@@ -3,8 +3,8 @@
   "name": "mcode-stack",
   "description": "Workflows and skills the MiniMax Code team uses to build MiniMax Code. Each stack installs as one plugin.",
   "owner": {
-    "name": "ZhongBiran",
-    "url": "https://github.com/ZhongBiran/mcode-stack"
+    "name": "zhongbiran",
+    "url": "https://github.com/zhongbiran/mcode-stack"
   },
   "plugins": [
     {
@@ -15,7 +15,7 @@
       "author": {
         "name": "ZhongBiran"
       },
-      "homepage": "https://github.com/ZhongBiran/mcode-stack/tree/main/stacks/mcode"
+      "homepage": "https://github.com/zhongbiran/mcode-stack/tree/main/stacks/mcode"
     },
     {
       "name": "mcode-content",
@@ -25,7 +25,7 @@
       "author": {
         "name": "ZhongBiran"
       },
-      "homepage": "https://github.com/ZhongBiran/mcode-stack/tree/main/stacks/mcode-content"
+      "homepage": "https://github.com/zhongbiran/mcode-stack/tree/main/stacks/mcode-content"
     }
   ]
 }
