@@ -133,6 +133,13 @@ function checkStack(root) {
   if (!existsSync(join(root, "WORKFLOW.md"))) err(where, "missing WORKFLOW.md");
   const listed = new Set(manifest.skills ?? []);
   for (const ref of listed) if (!existsSync(join(root, ref))) err(where, `skills entry ${ref} does not exist`);
+  for (const ref of manifest.agents ?? []) {
+    if (!/^agents\/[a-z][a-z0-9_-]*\.md$/u.test(ref)) {
+      err(where, `agents entry ${ref} must match agents/<name>.md`);
+      continue;
+    }
+    if (!existsSync(join(root, ref))) err(where, `agents entry ${ref} does not exist`);
+  }
   for (const skill of dirs(join(root, "skills"))) {
     const ref = `skills/${skill}/SKILL.md`;
     if (!listed.has(ref)) err(where, `${ref} is not listed in plugin.json "skills"`);

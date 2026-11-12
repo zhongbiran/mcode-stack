@@ -7,11 +7,12 @@
 原来 27 个 skill 按作者分包（ronny / req-tpm / jiachen），调用时机全靠读 description 猜，每个新项目开工要手动调 7-8 个才能把项目配置好。现在合成一个入口：
 - 入口先**判定阶段**，再按阶段编排；
 - 每个阶段**指定 agent**，agent 绑定不同模型，调用谁 = 花哪一份额度；
-- 难度分派：高难度给 `worker`（主额度池），中低难度给 `deputy`（免费档，零额度消耗）。
+- 难度分派：高难度给 `mcode:worker`（主额度池），中低难度给 `mcode:deputy`（免费档，零额度消耗）。
 
 ## 包含什么
 
 - 入口 `mcode`：阶段判定 + 四阶段编排 + 派 agent 表 + 难度分派规则
+- **4 个自带 subagent**（装上即用，不用另配）：`mcode:strategist` / `mcode:deputy` / `mcode:worker` / `mcode:verifier`，模型绑定写在包里
 - `scripts/scaffold-project.mjs`：确定性脚手架（探测技术栈 → 生成 AGENTS.md / 验收入口 / 需求骨架），幂等，输出 JSON 摘要
 - `templates/`：AGENTS.md、verify.ps1、verify.sh、REQ 文档的骨架
 - 31 个内部 skill：原 ronny / req-tpm / jiachen 的方法论，按阶段归位
@@ -30,8 +31,12 @@ cp -R stacks/mcode-content ~/.minimax/plugins/
 > 插件目录**不热加载**：复制后必须刷新或重开会话。
 > 更省事的办法：把 `stacks/mcode/skills/*` 直接复制到 `~/.agents/skills/`，新会话立即可用。
 
+装好之后，`mcode:strategist` / `mcode:deputy` / `mcode:worker` / `mcode:verifier` 四个 agent 自动可用，
+用 `task` 工具以 `agent_name: "mcode:strategist"` 的形式调用。模型已绑定在包里，不需要单独配置；
+若某台电脑没有对应的模型凭据，调用会报 `MODEL_SELECTION_INVALID`，此时退回主程序自己做。
+
 ## 署名与许可
 
 本 stack 由上游 `ronny`、`req-tpm`、`jiachen` 三个 stack 重组而成，方法论正文来自原作者。
-`engineering-*` 系列改编自 [Google Engineering Practices](https://google.github.io/eng-practices/)（CC-BY 3.0），见 [NOTICE.md](NOTICE.md)。
+`engineering-*` 系列改编自 [Google Engineering Practices](https://github.com/google/eng-practices/)（CC-BY 3.0），见 [NOTICE.md](NOTICE.md)。
 其余 MIT。内容生产栈 `making-content` 由 Jiachen 撰写。

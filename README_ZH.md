@@ -15,7 +15,7 @@
 
 这里放的不是 prompt 合集，也不是「最佳实践」清单，而是团队成员每天真在用的东西：怎么让 AI 写的代码保持质量、怎么判断一个任务该不该拆 subagent、长命令该怎么等、长会话怎么不变傻、每一轮往上下文里塞了什么。每一份都是一个 `SKILL.md` 格式的 Skill 或清单，能直接装进 [MiniMax Code](https://github.com/MiniMax-AI/minimax-code) 里用。
 
-工程类的 Skill 现在装成一个插件 `mcode`（显示名 **MCode-Agent**）：由入口 skill 判定你处在四个阶段里的哪一个 —— 开工、推进、验收、收尾 —— 其余按阶段派发。
+工程类的 Skill 现在装成一个插件 `mcode`（显示名 **MCode-Agent**）：由入口 skill 判定你处在四个阶段里的哪一个 —— 开工、推进、验收、收尾 —— 其余按阶段派发。插件自带 4 个 agent（`mcode:strategist` / `mcode:deputy` / `mcode:worker` / `mcode:verifier`），模型绑定在包里，装完即用。
 
 内容栈 `mcode-content` 显示名 **Mcode-Content-Check**，内置 `making-content` 与第三方 skill `lieflat-less-ai-tone`。
 
@@ -96,7 +96,7 @@ mcode-stack/stacks/mcode-content  ->  .minimax/plugins/mcode-content
 然后打开 `/plugins` 按 **Ctrl+R** 刷新，在对话里输入 `@mcode`。只做工程开发的话，复制 `mcode` 一个即可。
 
 > 插件目录不热加载：复制后必须刷新或重开会话。
-> 多 agent 编排（`strategist` / `worker` / `deputy` / `verifier`）不在插件包里，需要在 Agent 设置里单独创建并绑定模型，详见 `stacks/mcode/WORKFLOW.md`。
+> `mcode:strategist` / `mcode:deputy` / `mcode:worker` / `mcode:verifier` 四个 agent 由插件自带，模型绑定写在包里，装完即用，不用另外配置。
 
 <details>
 <summary>更多安装方式</summary>

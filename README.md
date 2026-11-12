@@ -23,7 +23,10 @@ checklist that installs straight into
 
 The engineering skills now install as one plugin, `mcode` (display name
 **MCode-Agent**): a single entry skill decides which of four stages you are in —
-start, work, verify, wrap up — and dispatches the rest.
+start, work, verify, wrap up — and dispatches the rest. The plugin also ships
+four agents (`mcode:strategist` / `mcode:deputy` / `mcode:worker` /
+`mcode:verifier`) with their models bound in the package, so they work the
+moment it is installed.
 
 The content stack `mcode-content` (display name **Mcode-Content-Check**) carries
 `making-content` and the third-party skill `lieflat-less-ai-tone`.
@@ -123,9 +126,9 @@ conversation. For engineering work only, `mcode` alone is enough.
 
 > The plugin directory is not hot-reloaded: refresh or reopen a session after
 > copying.
-> The multi-agent setup (`strategist` / `worker` / `deputy` / `verifier`) is
-> not part of the plugin package; create those agents and bind their models
-> separately in Agent settings. See `stacks/mcode/WORKFLOW.md`.
+> The four agents (`mcode:strategist` / `mcode:deputy` / `mcode:worker` /
+> `mcode:verifier`) ship with the plugin, with their models bound in the
+> package. Nothing to configure after install.
 
 <details>
 <summary>More install options</summary>

@@ -29,7 +29,7 @@ description: MCode-Agent 的主入口。开工、推进、验收、收尾四个�
 ### 2.1 开工
 
 1. 跑 `node scripts/scaffold-project.mjs`（与本 SKILL.md 同目录）→ 生成/校准 AGENTS.md、唯一验收入口、`docs/requirements/` 骨架；读它输出的 JSON 摘要
-2. **派 `strategist`（首脑）—— 只派这一次**，它出方向：
+2. **派 `mcode:strategist`（首脑）—— 只派这一次**，它出方向：
    - 加载 `req-intake` → 挑战这次的需求，写下**可验证的预期效果**
    - 加载 `subagent-split-check` → 决定这次怎么拆
    - 加载 `agent-brief` → 写本次 brief
@@ -41,16 +41,16 @@ description: MCode-Agent 的主入口。开工、推进、验收、收尾四个�
 ### 2.2 推进
 
 1. 先问「现在卡在哪」
-2. 执行类子任务按 §4 的难度派给 `worker` 或 `deputy`；主程序自己不直接写实现代码
+2. 执行类子任务按 §4 的难度派给 `mcode:worker` 或 `mcode:deputy`；主程序自己不直接写实现代码
 3. 卡住时按症状加载：`long-command-check`（长命令卡住）/ `context-tax-audit`、`tool-budget-audit`（上下文膨胀）/ `long-session-check`（会话变钝）/ `engineering-emergency-changes`（紧急变更）/ `req-track`（进展跟踪）
 4. 本阶段**不预加载任何 skill**，按需加载
 
 ### 2.3 验收
 
 1. 跑项目的唯一验收入口（如 `pwsh -File verify.ps1`）
-2. **派 `verifier`** → 加载 `evidence-first-review`（先看证据再信自述）、`independent-review`（干净上下文复核）、`engineering-code-review`（找问题）
+2. **派 `mcode:verifier`** → 加载 `evidence-first-review`（先看证据再信自述）、`independent-review`（干净上下文复核）、`engineering-code-review`（找问题）
 3. 落盘 `docs/reviews/<date>-<slug>.md`（结论 + 遗留风险）
-4. **副手（`deputy`）干的活必须过这一步** —— 免费档会漏「性能 / 非显然」类缺陷
+4. **副手（`mcode:deputy`）干的活必须过这一步** —— 免费档会漏「性能 / 非显然」类缺陷
 5. 要开 PR / MR 前自查，或用户点名评审某个 PR → 加载 `pr-review`（按严重度与证据阶梯给结论）；要写 PR 描述 → `pr-description`
 
 ### 2.4 收尾
@@ -64,14 +64,19 @@ description: MCode-Agent 的主入口。开工、推进、验收、收尾四个�
 
 ## 3. 派 agent 表（= 花哪一份额度）
 
+这四个 agent 由本插件自带（plugin subagent），装上就有，不用另外配置：
+
 | 阶段 | 派谁 | 模型 | 占 5h 额度 |
 |---|---|---|---|
-| 开工（首轮定方向） | `strategist` | opencode-go/kimi-k3.1-pro | **15.8%** |
+| 开工（首轮定方向） | `mcode:strategist` | opencode-go/kimi-k3.1-pro | **15.8%** |
 | 开工（后续澄清轮） | `explore` / 主程序自己 | iceman-contributor-free / MiniMax-M3.1-Flash | ~0 |
-| 推进（执行 · 高难度） | `worker` | minimax/MiniMax-M3.1-Flash | 0（minimax 池） |
-| 推进（执行 · 中低难度） | `deputy` | opencode-go/iceman-contributor-free | **0** |
-| 验收 | `verifier` | opencode-go/qwen3.8-max | 1.7% |
+| 推进（执行 · 高难度） | `mcode:worker` | minimax/MiniMax-M3.1-Flash | 0（minimax 池） |
+| 推进（执行 · 中低难度） | `mcode:deputy` | opencode-go/iceman-contributor-free | **0** |
+| 验收 | `mcode:verifier` | opencode-go/qwen3.8-max | 1.7% |
 | 杂活 | `explore` | opencode-go/iceman-contributor-free | 0 |
+
+**用 `task` 工具时 `agent_name` 填 scoped 名**（`mcode:strategist`），模型已绑定在包里。
+若某个模型在本机不可用（报 `MODEL_SELECTION_INVALID`），退回主程序自己做，不要反复重试。
 
 **单次任务的 opencode-go 消耗 ≈ 17.5%（首脑 15.8% + 复核 1.7%）。超过 30% 说明首脑被反复调用了，该降本。**
 
@@ -79,16 +84,16 @@ description: MCode-Agent 的主入口。开工、推进、验收、收尾四个�
 
 | 难度 | 判定（满足任一即高难度） | 执行者 |
 |---|---|---|
-| 高 | 跨 ≥ 3 个模块 / 改动 ≥ 5 个文件 / 动协议或数据契约 / 有多种方案需取舍 / 验收判据没法纯靠现有命令判定 | `worker` |
-| 中低 | 其余：单模块内、≤ 3 个文件、方案唯一、现有命令能判验收 | `deputy` |
+| 高 | 跨 ≥ 3 个模块 / 改动 ≥ 5 个文件 / 动协议或数据契约 / 有多种方案需取舍 / 验收判据没法纯靠现有命令判定 | `mcode:worker` |
+| 中低 | 其余：单模块内、≤ 3 个文件、方案唯一、现有命令能判验收 | `mcode:deputy` |
 
 - **拿不准按高难度** —— 用主额度池换正确率，划算
-- 免费档（`deputy` / `explore`）的 token 不计入任何额度档，尽量把活推给它
-- `deputy` 的产出**必须**经 `verifier` 复核
+- 免费档（`mcode:deputy` / `explore`）的 token 不计入任何额度档，尽量把活推给它
+- `mcode:deputy` 的产出**必须**经 `mcode:verifier` 复核
 
 ## 5. 硬要求
 
 - 步骤里标明「load 某个 skill」时，用 `skill` 工具按名加载，**不要去读 SKILL.md 文件**
 - 不许跳步
 - 每条结论要么有证据（文件路径、命令输出），要么明确标注是假设
-- 执行类工作不自己硬写，按 §4 派给 `worker` / `deputy`
+- 执行类工作不自己硬写，按 §4 派给 `mcode:worker` / `mcode:deputy`
