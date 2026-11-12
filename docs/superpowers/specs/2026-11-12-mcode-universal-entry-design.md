@@ -128,6 +128,7 @@
 5. 落盘 `docs/plans/<date>-<slug>.md`（拆活方案 + brief + 实施计划）—— **这一步是首脑分层的关键**：后续澄清轮靠它读盘，不必再调 kimi
 
 **推进**
+0. 按 5.4 节的难度分派：执行类子任务分给 worker（高难度）或 deputy（中低难度）；主程序自己不直接写实现代码。
 1. 先问「现在卡在哪」
 2. 按症状加载对应 skill：长命令卡住 → `long-command-check`；上下文膨胀 → `context-tax-audit` / `tool-budget-audit`；会话变钝 → `long-session-check`；紧急变更 → `engineering-emergency-changes`；进展跟踪 → `req-track`
 3. 本阶段**不预加载任何 skill**，按需加载，避免上下文税
@@ -161,7 +162,8 @@
 |---|---|---|---|
 | 开工（首轮定方向） | strategist | opencode-go/kimi-k3.1-pro | **15.8%** |
 | 开工（后续澄清轮） | explore / 主程序自己 | iceman-contributor-free / minimax/MiniMax-M3.1-Flash | ~0 |
-| 推进（执行） | worker | minimax/MiniMax-M3.1-Flash | 0（minimax 池） |
+| 推进（执行 · 高难度） | worker | minimax/MiniMax-M3.1-Flash | 0（minimax 池） |
+| 推进（执行 · 中低难度） | deputy | opencode-go/iceman-contributor-free | **0** |
 | 验收 | verifier | opencode-go/qwen3.8-max | 1.7% |
 | 杂活 | explore | opencode-go/iceman-contributor-free | 0 |
 
@@ -174,7 +176,20 @@
 
 **需要更强执行力时**（方案复杂、worker 卡住）：显式 `task(model="opencode-go/deepseek-v4.1-flash")`。该模型 AA 智能 33、cache 读免费、实测 4/4 命中，但吃 opencode-go 额度 3.6%，属于按需加码，不进默认槽位。
 
-### 5.4 入口 skill 的写法约束
+### 5.4 难度分派规则（谁做什么活）
+
+免费档（iceman-contributor-free）的 token **不计入任何额度档**，等于白嫖的执行力。所以原则是：**尽量把活推给它，把付费额度留给难活。**
+
+| 难度 | 判定信号（满足任一即算高难度） | 执行者 | 模型 |
+|---|---|---|---|
+| 高 | 跨 ≥ 3 个模块 / 改动 ≥ 5 个文件 / 动协议或数据契约 / 有多种方案需取舍 / 验收判据没法纯靠现有命令判定 | worker | minimax/MiniMax-M3.1-Flash |
+| 中低 | 其余：单模块内、≤ 3 个文件、方案唯一、验收靠现有命令可判 | deputy | opencode-go/iceman-contributor-free |
+
+- **拿不准按高难度** —— 用 M3.1 的额度换正确率，划算。
+- **副手的产出必须经 verifier 复核** —— 本档模型实测会漏「性能 / 非显然」类缺陷（基准题 3/4，漏的是串行 await 那个性能问题），而复核只要 1.7% 额度，正好用在「便宜模型干的活」上。
+- 首脑出方案时给每条子任务标难度与执行者，主程序照着派。
+
+### 5.5 入口 skill 的写法约束
 
 - frontmatter `description` 第一句写清「什么时刻调」，并列出触发词
 - 正文按上面 5.1 / 5.2 结构写死，每一步标明「**load** 哪个 skill」
@@ -304,4 +319,4 @@
 4. 在一个真实新项目里敲 `/mcode`，产出四类产物：AGENTS.md、验收入口、`docs/requirements/` 骨架、`docs/plans/` 计划
 5. 入口 skill 的 `skill` 调用序列 ≥ 4 次且全部成功（机制已在实验验证，此处复测规模）
 6. 旧三个插件从 `~/.minimax/plugins/` 移除后，仓库内无残留旧名引用
-7. 入口 skill 按 5.3 节的表派 agent：开工派 strategist、推进派 worker、验收派 verifier、杂活派 explore；单次任务消耗的 opencode-go 额度 ≤ 30%
+7. 入口 skill 按 5.3 节的表派 agent：开工派 strategist、推进按 5.4 节难度派 worker 或 deputy、验收派 verifier、杂活派 explore；单次任务消耗的 opencode-go 额度 ≤ 30%
