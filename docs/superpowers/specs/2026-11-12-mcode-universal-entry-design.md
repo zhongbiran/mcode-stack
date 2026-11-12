@@ -122,9 +122,9 @@
 **开工**
 1. 跑 `scripts/scaffold-project.mjs` → 生成/校准 AGENTS.md、唯一验收入口、`docs/requirements/` 骨架（读它输出的 JSON 摘要）
 2. 加载 `req-intake` → 挑战这次的需求，写下**可验证的预期效果**
-3. 加载 `subagent-split-check` → 决定这次怎么拆
+3. 加载 `subagent-split-check` → 决定这次怎么拆（结果要落盘，供后续轮读盘继续）
 4. 加载 `agent-brief` → 写本次 brief
-5. 落盘 `docs/plans/<date>-<slug>.md`（拆活方案 + brief + 实施计划）
+5. 落盘 `docs/plans/<date>-<slug>.md`（拆活方案 + brief + 实施计划）—— **这一步是首脑分层的关键**：后续澄清轮靠它读盘，不必再调 kimi
 
 **推进**
 1. 先问「现在卡在哪」
@@ -146,7 +146,34 @@
 4. 加载 `lifting-loops` → 找出你在替 agent 干的活
 5. 更新 AGENTS.md 的「已知坑」段
 
-### 5.3 入口 skill 的写法约束
+### 5.3 模型与额度分配（插件的一部分）
+
+入口 skill 不只是流程，还必须写明**每一步派哪个 agent** —— 因为每个 agent 在 MCode 里绑定了不同模型，调用谁就决定了花哪一份额度。这张表是插件的一部分，不是外挂约定。
+
+本机额度结构（2026-11-12 实测）：
+
+- **minimax/MiniMax-M3.1-Flash** —— 用户的主要额度池，量大。承担**执行层与主程序**，最能扛量。
+- **opencode-go** —— 稀缺池。5 小时滚动窗口约 380 万 token，30% 红线约 114 万 token。**只留给首脑与复核。**
+- **opencode-go 免费档**（iceman-contributor-free）—— **token 不计入任何额度档**，杂活全放这里 = 0 消耗。
+
+| 阶段 | 派谁 | 模型 | 单次占 5h 额度 |
+|---|---|---|---|
+| 开工（首轮定方向） | strategist | opencode-go/kimi-k3.1-pro | **15.8%** |
+| 开工（后续澄清轮） | explore / 主程序自己 | iceman-contributor-free / minimax/MiniMax-M3.1-Flash | ~0 |
+| 推进（执行） | worker | minimax/MiniMax-M3.1-Flash | 0（minimax 池） |
+| 验收 | verifier | opencode-go/qwen3.8-max | 1.7% |
+| 杂活 | explore | opencode-go/iceman-contributor-free | 0 |
+
+**首脑分层规则（守 30% 红线）**：kimi 一轮就吃掉 15.8%，「反复确认」两三轮必破线。所以：
+
+1. 首脑只出**一轮**方向 —— 一次成型，含问题定义 / 约束 / 选项 / 推荐 / 执行顺序 / 验收。
+2. 首脑必须把结论**落盘**到 `docs/plans/<date>-<slug>.md`。
+3. 之后的澄清轮**不再调 kimi**，改派 `explore`（免费档）读盘继续，或主程序自己读盘推进。
+4. 单任务预算：15.8 + 0 + 0 + 1.7 ≈ **17.5%**，留足余量。
+
+**需要更强执行力时**（方案复杂、worker 卡住）：显式 `task(model="opencode-go/deepseek-v4.1-flash")`。该模型 AA 智能 33、cache 读免费、实测 4/4 命中，但吃 opencode-go 额度 3.6%，属于按需加码，不进默认槽位。
+
+### 5.4 入口 skill 的写法约束
 
 - frontmatter `description` 第一句写清「什么时刻调」，并列出触发词
 - 正文按上面 5.1 / 5.2 结构写死，每一步标明「**load** 哪个 skill」
@@ -275,4 +302,5 @@
 3. 装到 `~/.minimax/plugins/` → Ctrl+R → skill 目录出现 `mcode:mcode` 与 31 个内部 skill
 4. 在一个真实新项目里敲 `/mcode`，产出四类产物：AGENTS.md、验收入口、`docs/requirements/` 骨架、`docs/plans/` 计划
 5. 入口 skill 的 `skill` 调用序列 ≥ 4 次且全部成功（机制已在实验验证，此处复测规模）
+7. 入口 skill 按 `5.3 的表派 agent：开工派 strategist、推进派 worker、验收派 verifier、杂活派 explore；单次任务消耗的 opencode-go 额度 ≤ 30%
 6. 旧三个插件从 `~/.minimax/plugins/` 移除后，仓库内无残留旧名引用
