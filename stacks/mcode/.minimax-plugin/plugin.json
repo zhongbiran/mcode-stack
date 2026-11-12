@@ -1,8 +1,8 @@
 {
   "schemaVersion": 1,
   "name": "mcode",
-  "displayName": "MaxMiniCode-Agent",
-  "version": "0.2.1",
+  "displayName": "MCode-Agent",
+  "version": "0.3.0",
   "description": "按会话生命周期组织的 MCode 工作台：一个入口 skill 走完开工、推进、验收、收尾四个阶段，每个阶段指派对应 agent 与模型，把新项目配置（AGENTS.md、唯一验收入口、需求文档骨架、拆活方案）一次生成，并按难度把执行分给高难度与低成本两个执行者；并带上 PR / MR 评审全家桶（评审规则、PR 描述、作者问答、CI 接入、规则自调优）。触发词：mcode、开工、启动项目、验收、收尾、复盘、review、PR 评审。",
   "author": "ZhongBiran",
   "icon": "icon.png",

@@ -1,0 +1,11 @@
+{
+  "$schema": "https://agent-plugins.org/schemas/1.0.0/plugin.schema.json",
+  "name": "mcode-content",
+  "version": "0.2.0",
+  "description": "内容生产栈：把中文草稿改成本人风格（去 AI 味），或做成小红书图文与竖版短视频。与工程生命周期无关，可单独安装。 内含第三方 skill lieflat-less-ai-tone（CC BY-NC 4.0，非商业使用）。",
+  "author": {
+    "name": "ZhongBiran"
+  },
+  "homepage": "https://github.com/MiniMax-AI/mcode-stack/tree/main/stacks/mcode-content",
+  "repository": "https://github.com/MiniMax-AI/mcode-stack"
+}

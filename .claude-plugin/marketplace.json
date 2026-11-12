@@ -3,8 +3,8 @@
   "name": "mcode-stack",
   "description": "Workflows and skills the MiniMax Code team uses to build MiniMax Code. Each stack installs as one plugin.",
   "owner": {
-    "name": "MiniMax Code team",
-    "url": "https://github.com/MiniMax-AI/mcode-stack"
+    "name": "ZhongBiran",
+    "url": "https://github.com/ZhongBiran/mcode-stack"
   },
   "plugins": [
     {
@@ -15,17 +15,17 @@
       "author": {
         "name": "ZhongBiran"
       },
-      "homepage": "https://github.com/MiniMax-AI/mcode-stack/tree/main/stacks/mcode"
+      "homepage": "https://github.com/ZhongBiran/mcode-stack/tree/main/stacks/mcode"
     },
     {
       "name": "mcode-content",
       "source": "./stacks/mcode-content",
-      "description": "内容生产栈：把中文草稿改成本人风格（去 AI 味），或做成小红书图文与竖版短视频。与工程生命周期无关，可单独安装。",
+      "description": "内容生产栈：把中文草稿改成本人风格（去 AI 味），或做成小红书图文与竖版短视频。与工程生命周期无关，可单独安装。 内含第三方 skill lieflat-less-ai-tone（CC BY-NC 4.0，非商业使用）。",
       "category": "Productivity",
       "author": {
-        "name": "Jiachen (MiniMax Code team)"
+        "name": "ZhongBiran"
       },
-      "homepage": "https://github.com/MiniMax-AI/mcode-stack/tree/main/stacks/mcode-content"
+      "homepage": "https://github.com/ZhongBiran/mcode-stack/tree/main/stacks/mcode-content"
     }
   ]
 }

@@ -4,7 +4,7 @@
 
 <p align="center">
   <a href="LICENSE"><img alt="License: MIT" src="https://img.shields.io/badge/license-MIT-blue.svg"></a>
-  <a href="https://github.com/MiniMax-AI/mcode-stack/actions/workflows/validate.yml"><img alt="validate" src="https://github.com/MiniMax-AI/mcode-stack/actions/workflows/validate.yml/badge.svg"></a>
+  <a href="https://github.com/ZhongBiran/mcode-stack/actions/workflows/validate.yml"><img alt="validate" src="https://github.com/ZhongBiran/mcode-stack/actions/workflows/validate.yml/badge.svg"></a>
   <a href="stacks/"><img alt="skills: stacks/" src="https://img.shields.io/badge/skills-stacks%2F-ff7a59.svg"></a>
   <a href="https://github.com/MiniMax-AI/minimax-code"><img alt="for MiniMax Code" src="https://img.shields.io/badge/for-MiniMax%20Code-5b6cff.svg"></a>
 </p>
@@ -15,7 +15,9 @@
 
 这里放的不是 prompt 合集，也不是「最佳实践」清单，而是团队成员每天真在用的东西：怎么让 AI 写的代码保持质量、怎么判断一个任务该不该拆 subagent、长命令该怎么等、长会话怎么不变傻、每一轮往上下文里塞了什么。每一份都是一个 `SKILL.md` 格式的 Skill 或清单，能直接装进 [MiniMax Code](https://github.com/MiniMax-AI/minimax-code) 里用。
 
-工程类的 Skill 现在装成一个插件 `mcode`：由入口 skill 判定你处在四个阶段里的哪一个 —— 开工、推进、验收、收尾 —— 其余按阶段派发。
+工程类的 Skill 现在装成一个插件 `mcode`（显示名 **MCode-Agent**）：由入口 skill 判定你处在四个阶段里的哪一个 —— 开工、推进、验收、收尾 —— 其余按阶段派发。
+
+内容栈 `mcode-content` 显示名 **Mcode-Content-Check**，内置 `making-content` 与第三方 skill `lieflat-less-ai-tone`。
 
 - [快速开始](#快速开始)
 - [里面有什么](#里面有什么)
@@ -29,13 +31,13 @@
 **Claude Code，一条命令。** 这条命令会加上本仓库的插件市场，并装上一整份 stack。在 shell 里：
 
 ```bash
-claude plugin install mcode --marketplace MiniMax-AI/mcode-stack
+claude plugin install mcode --marketplace ZhongBiran/mcode-stack
 ```
 
 在 Claude Code 会话里：
 
 ```bash
-/plugin install mcode --marketplace MiniMax-AI/mcode-stack
+/plugin install mcode --marketplace ZhongBiran/mcode-stack
 ```
 
 `mcode` 是工程生命周期工作台，内容生产栈用 `mcode-content`，装法一样。克隆本仓库后可以跑 `scripts/install.sh`（默认 `mcode`，`scripts/install.sh mcode-content` 装另一个）：`PATH` 里有 `claude` 或 `codex` 时，它会执行同样的安装，否则把该 stack 的 Skill 复制到 `~/.agents/skills/`。
@@ -43,14 +45,14 @@ claude plugin install mcode --marketplace MiniMax-AI/mcode-stack
 较旧的 Claude Code 可以先加市场，再安装：
 
 ```bash
-/plugin marketplace add MiniMax-AI/mcode-stack
+/plugin marketplace add ZhongBiran/mcode-stack
 /plugin install mcode@mcode-stack
 ```
 
 **Codex。** 先加上市场，再从 Plugins Directory 或 CLI 安装：
 
 ```bash
-codex plugin marketplace add MiniMax-AI/mcode-stack
+codex plugin marketplace add ZhongBiran/mcode-stack
 codex plugin add mcode@mcode-stack
 ```
 
@@ -59,7 +61,7 @@ codex plugin add mcode@mcode-stack
 **装一个 Skill，所有项目都能用：**
 
 ```bash
-git clone https://github.com/MiniMax-AI/mcode-stack.git ~/mcode-stack
+git clone https://github.com/ZhongBiran/mcode-stack.git ~/mcode-stack
 mkdir -p ~/.agents/skills
 cp -R ~/mcode-stack/stacks/mcode/skills/long-command-check ~/.agents/skills/
 ```
@@ -76,7 +78,25 @@ mcode plugin marketplace list    # 查看本地插件目录
 
 **从 MiniMax Code 插件市场安装：**
 
-这个仓库本身也是一个插件市场，不用复制文件就能装，之后有更新也能直接拿到。在 MiniMax Code 桌面端打开「插件」，点「添加市场」，填入 `MiniMax-AI/mcode-stack`，每份 stack 都会显示成一个插件，可以安装、更新或卸载。添加市场的功能正在逐步开放，你的版本可能还没有。
+这个仓库本身也是一个插件市场，不用复制文件就能装，之后有更新也能直接拿到。在 MiniMax Code 桌面端打开「插件」，点「添加市场」，填入 `ZhongBiran/mcode-stack`，每份 stack 都会显示成一个插件，可以安装、更新或卸载。添加市场的功能正在逐步开放，你的版本可能还没有。
+
+**换一台电脑，快速导入（MiniMax Code 桌面端）：**
+
+```bash
+git clone https://github.com/ZhongBiran/mcode-stack.git
+```
+
+把两个目录复制到插件目录（Windows：`%USERPROFILE%\.minimax\plugins\`，macOS：`~/.minimax/plugins/`）：
+
+```text
+mcode-stack/stacks/mcode          ->  .minimax/plugins/mcode
+mcode-stack/stacks/mcode-content  ->  .minimax/plugins/mcode-content
+```
+
+然后打开 `/plugins` 按 **Ctrl+R** 刷新，在对话里输入 `@mcode`。只做工程开发的话，复制 `mcode` 一个即可。
+
+> 插件目录不热加载：复制后必须刷新或重开会话。
+> 多 agent 编排（`strategist` / `worker` / `deputy` / `verifier`）不在插件包里，需要在 Agent 设置里单独创建并绑定模型，详见 `stacks/mcode/WORKFLOW.md`。
 
 <details>
 <summary>更多安装方式</summary>
@@ -116,7 +136,7 @@ MiniMax Code 会自动发现这几个目录里的 Skill（每个 Skill 一个子
 | | [`taste-to-checks`](stacks/mcode/skills/taste-to-checks/SKILL.md) | 同样的意见提了两次，就写成测试、lint、hook 或 CI |
 | | [`engineering-emergency-changes`](stacks/mcode/skills/engineering-emergency-changes/SKILL.md) | 判断 hotfix 是不是真紧急，紧急时怎么快审又不丢质量 |
 
-上表是 [`stacks/mcode`](stacks/mcode/) 的内容。[`stacks/mcode-content`](stacks/mcode-content/) 里是 [`making-content`](stacks/mcode-content/skills/making-content/SKILL.md)：把笔记和素材做成小红书图文和竖版短视频。
+上表是 [`stacks/mcode`](stacks/mcode/) 的内容。[`stacks/mcode-content`](stacks/mcode-content/) 里是 [`making-content`](stacks/mcode-content/skills/making-content/SKILL.md)：把笔记和素材做成小红书图文和竖版短视频；以及第三方 skill [`lieflat-less-ai-tone`](stacks/mcode-content/skills/lieflat-less-ai-tone/SKILL.md)：基于两轮实测语料的 AI 味检测与最小改写（CC BY-NC 4.0，非商业使用，署名见 [`stacks/mcode-content/NOTICE.md`](stacks/mcode-content/NOTICE.md)）。
 
 `stacks/mcode` 里还带着需求管理的一组 Skill（`req-intake`、`req-design`、`req-prioritize`、`req-track`、`req-ship`、`req-outcome`）：谁提的需求，谁就和自己的 agent 一起当这条需求的 TPM，从受理时追问该不该做，到最后拿证据对照预期效果才关闭。需求正文放飞书文档，状态和流转放飞书项目（Meegle），所以这组 Skill 需要 `meegle` 和 `lark-cli`，并先在自己的 Meegle 空间里查一遍字段和状态。
 
@@ -163,7 +183,7 @@ templates/stack-template/   新增 stack 用的模板
 
 ## 参与贡献
 
-欢迎开 issue 讨论。代码、文档和 stack 的 PR，目前只收仓库协作者的。还不是协作者的话，先[开一个 issue](https://github.com/MiniMax-AI/mcode-stack/issues/new/choose) 把想法说清楚。
+欢迎开 issue 讨论。代码、文档和 stack 的 PR，目前只收仓库协作者的。还不是协作者的话，先[开一个 issue](https://github.com/ZhongBiran/mcode-stack/issues/new/choose) 把想法说清楚。
 
 我们很想知道你用 MiniMax Code（或者别的 agent）每天到底怎么干活，写在 issue 里就行。协作者要把一份 stack 放进仓库，按这几步：
 
@@ -180,4 +200,4 @@ MiniMax Code 本体在 [MiniMax-AI/minimax-code](https://github.com/MiniMax-AI/m
 
 ## License
 
-[MIT](LICENSE)，各 stack 的 `NOTICE.md` 另有说明的除外。`engineering-*` 系列 Skill 改编自 Google Engineering Practices，改编部分仍遵循 CC-BY 3.0，详见 [`stacks/mcode/NOTICE.md`](stacks/mcode/NOTICE.md)。
+[MIT](LICENSE)，各 stack 的 `NOTICE.md` 另有说明的除外。`engineering-*` 系列 Skill 改编自 Google Engineering Practices，改编部分仍遵循 CC-BY 3.0，详见 [`stacks/mcode/NOTICE.md`](stacks/mcode/NOTICE.md)。`stacks/mcode-content` 内的第三方 skill `lieflat-less-ai-tone` 遵循 CC BY-NC 4.0（署名-非商业性使用），商业用途需另行取得授权，详见 [`stacks/mcode-content/NOTICE.md`](stacks/mcode-content/NOTICE.md)。

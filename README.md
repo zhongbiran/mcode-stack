@@ -4,7 +4,7 @@
 
 <p align="center">
   <a href="LICENSE"><img alt="License: MIT" src="https://img.shields.io/badge/license-MIT-blue.svg"></a>
-  <a href="https://github.com/MiniMax-AI/mcode-stack/actions/workflows/validate.yml"><img alt="validate" src="https://github.com/MiniMax-AI/mcode-stack/actions/workflows/validate.yml/badge.svg"></a>
+  <a href="https://github.com/ZhongBiran/mcode-stack/actions/workflows/validate.yml"><img alt="validate" src="https://github.com/ZhongBiran/mcode-stack/actions/workflows/validate.yml/badge.svg"></a>
   <a href="stacks/"><img alt="skills: stacks/" src="https://img.shields.io/badge/skills-stacks%2F-ff7a59.svg"></a>
   <a href="https://github.com/MiniMax-AI/minimax-code"><img alt="for MiniMax Code" src="https://img.shields.io/badge/for-MiniMax%20Code-5b6cff.svg"></a>
 </p>
@@ -21,9 +21,12 @@ goes into context on every turn. Each piece is a `SKILL.md` skill or
 checklist that installs straight into
 [MiniMax Code](https://github.com/MiniMax-AI/minimax-code).
 
-The engineering skills now install as one plugin, `mcode`: a single entry skill
-decides which of four stages you are in — start, work, verify, wrap up — and
-dispatches the rest.
+The engineering skills now install as one plugin, `mcode` (display name
+**MCode-Agent**): a single entry skill decides which of four stages you are in —
+start, work, verify, wrap up — and dispatches the rest.
+
+The content stack `mcode-content` (display name **Mcode-Content-Check**) carries
+`making-content` and the third-party skill `lieflat-less-ai-tone`.
 
 - [Quick start](#quick-start)
 - [What's inside](#whats-inside)
@@ -38,13 +41,13 @@ dispatches the rest.
 a whole stack. In a shell:
 
 ```bash
-claude plugin install mcode --marketplace MiniMax-AI/mcode-stack
+claude plugin install mcode --marketplace ZhongBiran/mcode-stack
 ```
 
 Inside a Claude Code session:
 
 ```bash
-/plugin install mcode --marketplace MiniMax-AI/mcode-stack
+/plugin install mcode --marketplace ZhongBiran/mcode-stack
 ```
 
 `mcode` is the engineering lifecycle workbench. Install `mcode-content` the same way
@@ -55,7 +58,7 @@ either is on `PATH`, and otherwise copies that stack's skills into `~/.agents/sk
 Older Claude Code can add the marketplace first, then install:
 
 ```bash
-/plugin marketplace add MiniMax-AI/mcode-stack
+/plugin marketplace add ZhongBiran/mcode-stack
 /plugin install mcode@mcode-stack
 ```
 
@@ -63,7 +66,7 @@ Older Claude Code can add the marketplace first, then install:
 CLI:
 
 ```bash
-codex plugin marketplace add MiniMax-AI/mcode-stack
+codex plugin marketplace add ZhongBiran/mcode-stack
 codex plugin add mcode@mcode-stack
 ```
 
@@ -74,7 +77,7 @@ Code both scan that directory; the copy steps are below.
 **One skill, for all your projects:**
 
 ```bash
-git clone https://github.com/MiniMax-AI/mcode-stack.git ~/mcode-stack
+git clone https://github.com/ZhongBiran/mcode-stack.git ~/mcode-stack
 mkdir -p ~/.agents/skills
 cp -R ~/mcode-stack/stacks/mcode/skills/long-command-check ~/.agents/skills/
 ```
@@ -97,9 +100,32 @@ enable or disable it.
 
 This repository is also a plugin marketplace, so you can install a stack
 without copying files and pick up updates later. In MiniMax Code desktop, open
-**Plugins**, choose **Add marketplace** and enter `MiniMax-AI/mcode-stack`; each
+**Plugins**, choose **Add marketplace** and enter `ZhongBiran/mcode-stack`; each
 stack then shows up as one plugin you can install, update or uninstall. Adding
 marketplaces is rolling out gradually, so your version may not have it yet.
+
+**Moving to another computer (MiniMax Code desktop):**
+
+```bash
+git clone https://github.com/ZhongBiran/mcode-stack.git
+```
+
+Copy the two directories into the plugin directory (Windows:
+`%USERPROFILE%\.minimax\plugins\`, macOS: `~/.minimax/plugins/`):
+
+```text
+mcode-stack/stacks/mcode          ->  .minimax/plugins/mcode
+mcode-stack/stacks/mcode-content  ->  .minimax/plugins/mcode-content
+```
+
+Then open `/plugins`, press **Ctrl+R** to refresh, and type `@mcode` in a
+conversation. For engineering work only, `mcode` alone is enough.
+
+> The plugin directory is not hot-reloaded: refresh or reopen a session after
+> copying.
+> The multi-agent setup (`strategist` / `worker` / `deputy` / `verifier`) is
+> not part of the plugin package; create those agents and bind their models
+> separately in Agent settings. See `stacks/mcode/WORKFLOW.md`.
 
 <details>
 <summary>More install options</summary>
@@ -147,7 +173,12 @@ other agents that support skills.
 The table above is [`stacks/mcode`](stacks/mcode/).
 [`stacks/mcode-content`](stacks/mcode-content/) holds
 [`making-content`](stacks/mcode-content/skills/making-content/SKILL.md), which
-turns notes and material into Xiaohongshu image posts and short vertical videos.
+turns notes and material into Xiaohongshu image posts and short vertical videos,
+and the third-party skill
+[`lieflat-less-ai-tone`](stacks/mcode-content/skills/lieflat-less-ai-tone/SKILL.md),
+which detects and minimally rewrites AI-sounding Chinese prose from two rounds of
+measured corpora (CC BY-NC 4.0, non-commercial; see
+[`stacks/mcode-content/NOTICE.md`](stacks/mcode-content/NOTICE.md)).
 
 `stacks/mcode` also carries the requirement skills (`req-intake`, `req-design`,
 `req-prioritize`, `req-track`, `req-ship`, `req-outcome`): whoever raises a
@@ -212,7 +243,7 @@ for what each one contains.
 
 Issues and discussion are welcome. For now, pull requests for code,
 documentation, and stacks are accepted only from repository collaborators.
-If you are not a collaborator, [open an issue](https://github.com/MiniMax-AI/mcode-stack/issues/new/choose)
+If you are not a collaborator, [open an issue](https://github.com/ZhongBiran/mcode-stack/issues/new/choose)
 to discuss first.
 
 We still want to hear how you work with MiniMax Code, or any other agent,
@@ -239,4 +270,7 @@ repository only holds workflows and skills, no MiniMax Code source code.
 [MIT](LICENSE), except where a stack's `NOTICE.md` says otherwise. The
 `engineering-*` skills are adapted from Google Engineering Practices; the
 adapted material stays under CC-BY 3.0. See
-[`stacks/mcode/NOTICE.md`](stacks/mcode/NOTICE.md).
+[`stacks/mcode/NOTICE.md`](stacks/mcode/NOTICE.md). The third-party skill
+`lieflat-less-ai-tone` in `stacks/mcode-content` is CC BY-NC 4.0
+(attribution-noncommercial); commercial use needs a separate license. See
+[`stacks/mcode-content/NOTICE.md`](stacks/mcode-content/NOTICE.md).

@@ -1,4 +1,4 @@
-# MaxMiniCode-Agent
+# MCode-Agent
 
 一个插件，一个入口。输入 `@mcode`，走完**开工 → 推进 → 验收 → 收尾**。
 
