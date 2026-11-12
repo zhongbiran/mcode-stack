@@ -9,7 +9,9 @@
 | **推进**：执行子任务 | 高难度 `worker` / 中低难度 `deputy` | 按需 | 代码 |
 | **推进**：卡住了 | 主程序自己 | `long-command-check` / `context-tax-audit` / `tool-budget-audit` / `long-session-check` / `engineering-emergency-changes` / `req-track` | — |
 | **验收**：声称做完了 | `verifier` | `evidence-first-review` → `independent-review` → `engineering-code-review` | `docs/reviews/<date>-<slug>.md` |
+| **验收**：合并前自查 / 评审某个 PR | `verifier` 或主程序 | `pr-review` → `pr-description` | PR 正文、评审结论 |
 | **收尾**：今天到这 | 主程序自己 | `taste-to-checks` → `trajectory-review` → `handoff-doc` → `lifting-loops` | `AGENTS.md` 已知坑段 |
+| **收尾**：把评审接进 CI / 调评审规则 | 主程序自己 | `pr-review-ci` / `pr-review-tuning` | `.github/workflows/mcode-review.yml`、`.gitlab/` |
 
 ## 难度分派（执行类子任务）
 

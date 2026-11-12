@@ -51,6 +51,7 @@ description: MCode 生命周期工作台的主入口。开工、推进、验收�
 2. **派 `verifier`** → 加载 `evidence-first-review`（先看证据再信自述）、`independent-review`（干净上下文复核）、`engineering-code-review`（找问题）
 3. 落盘 `docs/reviews/<date>-<slug>.md`（结论 + 遗留风险）
 4. **副手（`deputy`）干的活必须过这一步** —— 免费档会漏「性能 / 非显然」类缺陷
+5. 要开 PR / MR 前自查，或用户点名评审某个 PR → 加载 `pr-review`（按严重度与证据阶梯给结论）；要写 PR 描述 → `pr-description`
 
 ### 2.4 收尾
 
@@ -59,6 +60,7 @@ description: MCode 生命周期工作台的主入口。开工、推进、验收�
 3. 加载 `handoff-doc` → 写交接（还要继续时）
 4. 加载 `lifting-loops` → 找出你在替 agent 干的活
 5. 更新 AGENTS.md 的「已知坑」段
+6. 要把评审接进 CI（GitHub Actions / GitLab CI）→ 加载 `pr-review-ci`；要按仓库历史调评审规则 → `pr-review-tuning`
 
 ## 3. 派 agent 表（= 花哪一份额度）
 

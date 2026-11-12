@@ -14,7 +14,8 @@
 - 入口 `mcode`：阶段判定 + 四阶段编排 + 派 agent 表 + 难度分派规则
 - `scripts/scaffold-project.mjs`：确定性脚手架（探测技术栈 → 生成 AGENTS.md / 验收入口 / 需求骨架），幂等，输出 JSON 摘要
 - `templates/`：AGENTS.md、verify.ps1、verify.sh、REQ 文档的骨架
-- 26 个内部 skill：原 ronny / req-tpm / jiachen 的方法论，按阶段归位
+- 31 个内部 skill：原 ronny / req-tpm / jiachen 的方法论，按阶段归位
+- `ci/`：MCode Review 的 CI 运行体，`pr-review-ci` 用它接 GitHub Actions / GitLab CI
 - `checklists/`：5 份纯文本检查清单
 - `NOTICE.md`：`engineering-*` 系列的第三方署名（CC-BY 3.0）
 

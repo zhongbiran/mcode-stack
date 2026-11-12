@@ -1,0 +1,3 @@
+# 插件内文本一律 LF（Windows 的 core.autocrlf 会转 CRLF，ci/test 与 skills frontmatter 按 LF 解析）
+stacks/mcode/** text eol=lf
+*.png binary
