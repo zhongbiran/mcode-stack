@@ -1,6 +1,6 @@
 ---
 name: mcode
-description: MCode 生命周期工作台的主入口。开工、推进、验收、收尾四个阶段一次走完：生成项目配置（AGENTS.md、唯一验收入口、需求文档骨架、拆活方案），按难度指派执行 agent，按阶段复核。Use when starting a new project or task, when work is in progress and needs steering, when something is claimed done and needs verification, or when wrapping up a session.
+description: MaxMiniCode-Agent 的主入口。开工、推进、验收、收尾四个阶段一次走完：生成项目配置（AGENTS.md、唯一验收入口、需求文档骨架、拆活方案），按难度指派执行 agent，按阶段复核。Use when starting a new project or task, when work is in progress and needs steering, when something is claimed done and needs verification, or when wrapping up a session.
 ---
 
 # MCode 生命周期入口

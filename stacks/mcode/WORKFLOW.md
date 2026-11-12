@@ -1,4 +1,4 @@
-# MCode 生命周期工作台：此刻该调哪个 skill
+# MaxMiniCode-Agent：此刻该调哪个 skill
 
 入口是 `mcode`。它先判定当前阶段，再按阶段加载对应的 skill、必要时派对应的 agent。
 
