@@ -45,6 +45,7 @@
 - 32 个既有 skill 全部降级为**内部工具**，用户不需要知道它们存在（31 个进 `mcode` 插件，`making-content` 进 `mcode-content` 插件）
 - **确定性工作交给脚本**（秒级、零 token），**判断工作才交给模型**
 - 每个 skill 在 description 里自带「什么时候用」，agent 能自己选中
+- **入口 skill 写明每步派哪个 agent**（见 `5.3）—— 派谁 = 花哪一份额度
 - 重整后仓库仍通过 `node scripts/check.mjs`
 
 ### 非目标
@@ -302,5 +303,6 @@
 3. 装到 `~/.minimax/plugins/` → Ctrl+R → skill 目录出现 `mcode:mcode` 与 31 个内部 skill
 4. 在一个真实新项目里敲 `/mcode`，产出四类产物：AGENTS.md、验收入口、`docs/requirements/` 骨架、`docs/plans/` 计划
 5. 入口 skill 的 `skill` 调用序列 ≥ 4 次且全部成功（机制已在实验验证，此处复测规模）
+7. 入口 skill 按 `5.3 的表派 agent：开工派 strategist、推进派 worker、验收派 verifier、杂活派 explore；单次任务消耗的 opencode-go 额度 ≤ 30%
 7. 入口 skill 按 `5.3 的表派 agent：开工派 strategist、推进派 worker、验收派 verifier、杂活派 explore；单次任务消耗的 opencode-go 额度 ≤ 30%
 6. 旧三个插件从 `~/.minimax/plugins/` 移除后，仓库内无残留旧名引用
