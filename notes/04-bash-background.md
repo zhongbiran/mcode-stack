@@ -9,7 +9,7 @@ ended, cleanup, remembering after compaction) then has to be rebuilt.
 **Companion skill:** `long-command-check` - a ten-point audit for agent
 builders, plus quick behavioural tests.
 
-Plain-text checklist: [`checklists/long-command.md`](../stacks/ronny/checklists/long-command.md)
+Plain-text checklist: [`checklists/long-command.md`](../stacks/mcode/checklists/long-command.md)
 
 The implementation discussed in the article is open source in
 [MiniMax-AI/minimax-code](https://github.com/MiniMax-AI/minimax-code), mainly
@@ -19,5 +19,5 @@ under `packages/local-runtime/src/background-task/`.
 
 ```bash
 mkdir -p ~/.agents/skills
-cp -R ~/mcode-stack/stacks/ronny/skills/long-command-check ~/.agents/skills/
+cp -R ~/mcode-stack/stacks/mcode/skills/long-command-check ~/.agents/skills/
 ```

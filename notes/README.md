@@ -12,4 +12,4 @@ repository holds something you can install and run for it.
 | 04 | [How long should one bash command wait: from foreground blocking to background tasks](04-bash-background.md) | `long-command-check` |
 | 05 | [How does the agent know the current time?](05-prefix-cache.md) | `context-tax-audit` |
 
-All companion skills live in [`stacks/ronny/skills/`](../stacks/ronny/skills/).
+All companion skills live in [`stacks/mcode/skills/`](../stacks/mcode/skills/).

@@ -11,11 +11,11 @@ breaks the prompt cache.
 **Companion skill:** `context-tax-audit` - inventory one real request, then
 check necessity, frequency, precision, position and cache impact.
 
-Plain-text checklist: [`checklists/context-tax.md`](../stacks/ronny/checklists/context-tax.md)
+Plain-text checklist: [`checklists/context-tax.md`](../stacks/mcode/checklists/context-tax.md)
 
 **Install:**
 
 ```bash
 mkdir -p ~/.agents/skills
-cp -R ~/mcode-stack/stacks/ronny/skills/context-tax-audit ~/.agents/skills/
+cp -R ~/mcode-stack/stacks/mcode/skills/context-tax-audit ~/.agents/skills/
 ```

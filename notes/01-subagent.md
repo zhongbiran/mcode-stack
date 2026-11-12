@@ -7,7 +7,7 @@ up work by team or question type. Default to one main loop with skills loaded
 on demand, split only when context is the measured problem, and give code
 review its own clean context.
 
-**Companion skills** (in `stacks/ronny/skills/`):
+**Companion skills** (in `stacks/mcode/skills/`):
 
 - `independent-review` - the reviewer gets only the diff, the requirement and
   test results; findings come back structured and are verified before fixing.
@@ -16,12 +16,12 @@ review its own clean context.
 - `harness-experiment` - "measure first, change one thing at a time, keep what
   survives testing".
 
-Plain-text checklist: [`checklists/subagent-split.md`](../stacks/ronny/checklists/subagent-split.md)
+Plain-text checklist: [`checklists/subagent-split.md`](../stacks/mcode/checklists/subagent-split.md)
 
 **Install:**
 
 ```bash
 mkdir -p ~/.agents/skills
-cp -R ~/mcode-stack/stacks/ronny/skills/independent-review ~/.agents/skills/
-cp -R ~/mcode-stack/stacks/ronny/skills/subagent-split-check ~/.agents/skills/
+cp -R ~/mcode-stack/stacks/mcode/skills/independent-review ~/.agents/skills/
+cp -R ~/mcode-stack/stacks/mcode/skills/subagent-split-check ~/.agents/skills/
 ```

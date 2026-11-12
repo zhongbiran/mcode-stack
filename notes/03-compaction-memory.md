@@ -14,12 +14,12 @@ starts to drift.
 - `handoff-doc` - goal, decisions, ruled-out approaches, current state, next
   step.
 
-Plain-text checklist: [`checklists/long-session.md`](../stacks/ronny/checklists/long-session.md)
+Plain-text checklist: [`checklists/long-session.md`](../stacks/mcode/checklists/long-session.md)
 
 **Install:**
 
 ```bash
 mkdir -p ~/.agents/skills
-cp -R ~/mcode-stack/stacks/ronny/skills/long-session-check ~/.agents/skills/
-cp -R ~/mcode-stack/stacks/ronny/skills/handoff-doc ~/.agents/skills/
+cp -R ~/mcode-stack/stacks/mcode/skills/long-session-check ~/.agents/skills/
+cp -R ~/mcode-stack/stacks/mcode/skills/handoff-doc ~/.agents/skills/
 ```

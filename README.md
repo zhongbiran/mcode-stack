@@ -21,6 +21,10 @@ goes into context on every turn. Each piece is a `SKILL.md` skill or
 checklist that installs straight into
 [MiniMax Code](https://github.com/MiniMax-AI/minimax-code).
 
+The engineering skills now install as one plugin, `mcode`: a single entry skill
+decides which of four stages you are in — start, work, verify, wrap up — and
+dispatches the rest.
+
 - [Quick start](#quick-start)
 - [What's inside](#whats-inside)
 - [How it works](#how-it-works)
@@ -34,25 +38,25 @@ checklist that installs straight into
 a whole stack. In a shell:
 
 ```bash
-claude plugin install ronny --marketplace MiniMax-AI/mcode-stack
+claude plugin install mcode --marketplace MiniMax-AI/mcode-stack
 ```
 
 Inside a Claude Code session:
 
 ```bash
-/plugin install ronny --marketplace MiniMax-AI/mcode-stack
+/plugin install mcode --marketplace MiniMax-AI/mcode-stack
 ```
 
-Use `jiachen` or `req-tpm` in place of `ronny` for those stacks. From a clone of this
-repository, `scripts/install.sh` installs `ronny` (`scripts/install.sh jiachen`
-or `scripts/install.sh req-tpm` for the others) with `claude` or `codex` when either is on `PATH`, and
-otherwise copies that stack's skills into `~/.agents/skills/`.
+`mcode` is the engineering lifecycle workbench. Install `mcode-content` the same way
+for the content pipeline. From a clone of this repository, `scripts/install.sh` installs
+`mcode` (`scripts/install.sh mcode-content` for the other) with `claude` or `codex` when
+either is on `PATH`, and otherwise copies that stack's skills into `~/.agents/skills/`.
 
 Older Claude Code can add the marketplace first, then install:
 
 ```bash
 /plugin marketplace add MiniMax-AI/mcode-stack
-/plugin install ronny@mcode-stack
+/plugin install mcode@mcode-stack
 ```
 
 **Codex.** Add the marketplace, then install from the Plugins Directory or the
@@ -60,10 +64,10 @@ CLI:
 
 ```bash
 codex plugin marketplace add MiniMax-AI/mcode-stack
-codex plugin add ronny@mcode-stack
+codex plugin add mcode@mcode-stack
 ```
 
-Substitute `jiachen` or `req-tpm` the same way. To take a single skill instead of the
+Substitute `mcode-content` the same way. To take a single skill instead of the
 plugin, copy that skill's folder into `~/.agents/skills/`. Codex and MiniMax
 Code both scan that directory; the copy steps are below.
 
@@ -72,7 +76,7 @@ Code both scan that directory; the copy steps are below.
 ```bash
 git clone https://github.com/MiniMax-AI/mcode-stack.git ~/mcode-stack
 mkdir -p ~/.agents/skills
-cp -R ~/mcode-stack/stacks/ronny/skills/long-command-check ~/.agents/skills/
+cp -R ~/mcode-stack/stacks/mcode/skills/long-command-check ~/.agents/skills/
 ```
 
 Open a new session and type `/skills` in MiniMax Code to see it. Run it with
@@ -84,7 +88,7 @@ Open a new session and type `/skills` in MiniMax Code to see it. Run it with
 mcode plugin marketplace list    # shows your local plugin directory
 ```
 
-Copy the whole `stacks/ronny` directory into that directory, then open
+Copy the whole `stacks/mcode` directory into that directory, then open
 `/plugins` in MiniMax Code and press `Ctrl+R` to refresh. A local plugin is
 installed as soon as it is in that directory; press Space in the panel to
 enable or disable it.
@@ -118,50 +122,40 @@ other agents that support skills.
 
 ## What's inside
 
-<p align="center">
-  <img src="docs/assets/skills-map.png" alt="The skills in stacks/ronny, grouped by moment in the day, plus what stacks/jiachen adds" width="100%">
-</p>
-
 | When | Skill | What it does |
 | --- | --- | --- |
-| Plan & split | [`subagent-split-check`](stacks/ronny/skills/subagent-split-check/SKILL.md) | Decide whether work goes to a subagent or stays in the main loop |
-| | [`engineering-small-prs`](stacks/ronny/skills/engineering-small-prs/SKILL.md) | Split large features, refactors and migrations into small reviewable PRs |
-| | [`engineering-change-descriptions`](stacks/ronny/skills/engineering-change-descriptions/SKILL.md) | Write PR and commit descriptions that say what changed and why |
-| Context & tools | [`tool-budget-audit`](stacks/ronny/skills/tool-budget-audit/SKILL.md) | Measure what tools cost in context; trim, tool search or programmatic tool calling |
-| | [`context-tax-audit`](stacks/ronny/skills/context-tax-audit/SKILL.md) | What gets injected into every request, and what it does to the prompt cache |
-| Long sessions & commands | [`long-session-check`](stacks/ronny/skills/long-session-check/SKILL.md) | Drop, summarize or write to file; compact or start fresh; memory scoping |
-| | [`handoff-doc`](stacks/ronny/skills/handoff-doc/SKILL.md) | A hand-off doc so a new session can pick up the work |
-| | [`long-command-check`](stacks/ronny/skills/long-command-check/SKILL.md) | Ten-point audit of long shell commands and background tasks |
-| Review | [`independent-review`](stacks/ronny/skills/independent-review/SKILL.md) | Review a diff from a clean context: only diff, requirement and test results |
-| | [`engineering-code-review`](stacks/ronny/skills/engineering-code-review/SKILL.md) | Review a change for code health: design, functionality, complexity, tests, approval risk |
-| | [`engineering-review-comments`](stacks/ronny/skills/engineering-review-comments/SKILL.md) | Write clear, severity-labeled review comments that explain the reasoning |
-| | [`engineering-review-feedback`](stacks/ronny/skills/engineering-review-feedback/SKILL.md) | Handle reviewer comments as the author: fix, clarify, resolve disagreements |
-| Experiments & hotfixes | [`harness-experiment`](stacks/ronny/skills/harness-experiment/SKILL.md) | Small eval, one change at a time, repeated runs, look at flipped tasks |
-| | [`trajectory-review`](stacks/ronny/skills/trajectory-review/SKILL.md) | Look at how the agent got its result, not only whether it passed |
-| Owning agent work | [`agent-brief`](stacks/ronny/skills/agent-brief/SKILL.md) | Before delegating: stakes, hypothesis, scope, what "verified" means |
-| | [`evidence-first-review`](stacks/ronny/skills/evidence-first-review/SKILL.md) | When an agent says done: evidence first, what checks miss, silent decisions |
-| | [`review-capacity-check`](stacks/ronny/skills/review-capacity-check/SKILL.md) | Don't launch more agents than we can stand behind |
-| | [`taste-to-checks`](stacks/ronny/skills/taste-to-checks/SKILL.md) | Turn a repeat correction into a test, lint, hook or CI step |
-| | [`engineering-emergency-changes`](stacks/ronny/skills/engineering-emergency-changes/SKILL.md) | Decide whether a hotfix is a real emergency and run expedited review safely |
+| Plan & split | [`subagent-split-check`](stacks/mcode/skills/subagent-split-check/SKILL.md) | Decide whether work goes to a subagent or stays in the main loop |
+| | [`engineering-small-prs`](stacks/mcode/skills/engineering-small-prs/SKILL.md) | Split large features, refactors and migrations into small reviewable PRs |
+| | [`engineering-change-descriptions`](stacks/mcode/skills/engineering-change-descriptions/SKILL.md) | Write PR and commit descriptions that say what changed and why |
+| Context & tools | [`tool-budget-audit`](stacks/mcode/skills/tool-budget-audit/SKILL.md) | Measure what tools cost in context; trim, tool search or programmatic tool calling |
+| | [`context-tax-audit`](stacks/mcode/skills/context-tax-audit/SKILL.md) | What gets injected into every request, and what it does to the prompt cache |
+| Long sessions & commands | [`long-session-check`](stacks/mcode/skills/long-session-check/SKILL.md) | Drop, summarize or write to file; compact or start fresh; memory scoping |
+| | [`handoff-doc`](stacks/mcode/skills/handoff-doc/SKILL.md) | A hand-off doc so a new session can pick up the work |
+| | [`long-command-check`](stacks/mcode/skills/long-command-check/SKILL.md) | Ten-point audit of long shell commands and background tasks |
+| Review | [`independent-review`](stacks/mcode/skills/independent-review/SKILL.md) | Review a diff from a clean context: only diff, requirement and test results |
+| | [`engineering-code-review`](stacks/mcode/skills/engineering-code-review/SKILL.md) | Review a change for code health: design, functionality, complexity, tests, approval risk |
+| | [`engineering-review-comments`](stacks/mcode/skills/engineering-review-comments/SKILL.md) | Write clear, severity-labeled review comments that explain the reasoning |
+| | [`engineering-review-feedback`](stacks/mcode/skills/engineering-review-feedback/SKILL.md) | Handle reviewer comments as the author: fix, clarify, resolve disagreements |
+| Experiments & hotfixes | [`harness-experiment`](stacks/mcode/skills/harness-experiment/SKILL.md) | Small eval, one change at a time, repeated runs, look at flipped tasks |
+| | [`trajectory-review`](stacks/mcode/skills/trajectory-review/SKILL.md) | Look at how the agent got its result, not only whether it passed |
+| Owning agent work | [`agent-brief`](stacks/mcode/skills/agent-brief/SKILL.md) | Before delegating: stakes, hypothesis, scope, what "verified" means |
+| | [`evidence-first-review`](stacks/mcode/skills/evidence-first-review/SKILL.md) | When an agent says done: evidence first, what checks miss, silent decisions |
+| | [`review-capacity-check`](stacks/mcode/skills/review-capacity-check/SKILL.md) | Don't launch more agents than we can stand behind |
+| | [`taste-to-checks`](stacks/mcode/skills/taste-to-checks/SKILL.md) | Turn a repeat correction into a test, lint, hook or CI step |
+| | [`engineering-emergency-changes`](stacks/mcode/skills/engineering-emergency-changes/SKILL.md) | Decide whether a hotfix is a real emergency and run expedited review safely |
 
-The table above is [`stacks/ronny`](stacks/ronny/).
-[`stacks/jiachen`](stacks/jiachen/) adds
-[`lifting-loops`](stacks/jiachen/skills/lifting-loops/SKILL.md), which finds
-the loops where you keep acting as a manual step for your agents and lifts you
-out of them, and [`making-content`](stacks/jiachen/skills/making-content/SKILL.md),
-which turns notes and material into Xiaohongshu image posts and short vertical
-videos.
+The table above is [`stacks/mcode`](stacks/mcode/).
+[`stacks/mcode-content`](stacks/mcode-content/) holds
+[`making-content`](stacks/mcode-content/skills/making-content/SKILL.md), which
+turns notes and material into Xiaohongshu image posts and short vertical videos.
 
-[`stacks/req-tpm`](stacks/req-tpm/) is an optional stack for requirement
-management. The person who raises a product or technical requirement acts as
-its TPM together with their own agent: challenge it at intake and fix a
-measurable expected outcome, get a priority decision from the owner, record
-the design decision, track it on a cadence and flag stale items, pass ship
-gates, and close only with evidence against the expected outcome. The body
-lives in a Feishu doc; status and flow live in Meegle (Feishu Project). It is
-v0 and needs the `meegle` and `lark-cli` CLIs plus a one-time look-up of your
-Meegle space's fields and states; see
-[`stacks/req-tpm/README.md`](stacks/req-tpm/README.md).
+`stacks/mcode` also carries the requirement skills (`req-intake`, `req-design`,
+`req-prioritize`, `req-track`, `req-ship`, `req-outcome`): whoever raises a
+product or technical requirement acts as its TPM together with their own agent,
+from challenging it at intake to closing it with evidence. The body lives in a
+Feishu doc; status and flow live in Meegle (Feishu Project), so those skills
+need the `meegle` and `lark-cli` CLIs plus a one-time look-up of your Meegle
+space's fields and states.
 
 A stack usually has three kinds of things:
 
@@ -202,9 +196,8 @@ change it. To suggest a change here, open an issue; see
 ## Stacks
 
 ```text
-stacks/ronny/               Ronny's stack (MiniMax Code R&D lead), the first and most complete one
-stacks/jiachen/             Jiachen's stack: getting out of the agent loop, and turning notes into posts and videos
-stacks/req-tpm/             Optional: the requester and their agent act as a requirement's TPM (Feishu doc body, Meegle status); v0
+stacks/mcode/               The lifecycle workbench: one entry skill, four stages, the review family
+stacks/mcode-content/       Content pipeline: notes into Xiaohongshu posts and short vertical videos
 stacks/<name>/              One directory per team member; teammates are welcome to add theirs
 notes/                      Which runnable piece goes with each Engineering Notes article
 community/                  Stacks from outside the team, added by collaborators
@@ -212,8 +205,8 @@ templates/stack-template/   Template for a new stack
 ```
 
 Every stack is also a MiniMax Code plugin package. See
-[`stacks/ronny`](stacks/ronny/), [`stacks/jiachen`](stacks/jiachen/) and
-[`stacks/req-tpm`](stacks/req-tpm/) for what each one contains.
+[`stacks/mcode`](stacks/mcode/) and [`stacks/mcode-content`](stacks/mcode-content/)
+for what each one contains.
 
 ## Contributing
 
@@ -246,4 +239,4 @@ repository only holds workflows and skills, no MiniMax Code source code.
 [MIT](LICENSE), except where a stack's `NOTICE.md` says otherwise. The
 `engineering-*` skills are adapted from Google Engineering Practices; the
 adapted material stays under CC-BY 3.0. See
-[`stacks/ronny/NOTICE.md`](stacks/ronny/NOTICE.md).
+[`stacks/mcode/NOTICE.md`](stacks/mcode/NOTICE.md).

@@ -10,11 +10,11 @@ lays the groundwork for the next; measure at every step.
 **Companion skill:** `tool-budget-audit` - measure what tools cost, then pick
 between trimming, tool search and programmatic tool calling.
 
-Plain-text checklist: [`checklists/tool-budget.md`](../stacks/ronny/checklists/tool-budget.md)
+Plain-text checklist: [`checklists/tool-budget.md`](../stacks/mcode/checklists/tool-budget.md)
 
 **Install:**
 
 ```bash
 mkdir -p ~/.agents/skills
-cp -R ~/mcode-stack/stacks/ronny/skills/tool-budget-audit ~/.agents/skills/
+cp -R ~/mcode-stack/stacks/mcode/skills/tool-budget-audit ~/.agents/skills/
 ```

@@ -7,7 +7,7 @@ body:
     id: what
     attributes:
       label: Which stack or skill
-      placeholder: ronny/long-command-check
+      placeholder: mcode/long-command-check
     validations:
       required: true
   - type: input
